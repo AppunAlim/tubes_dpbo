@@ -5,7 +5,9 @@
  */
 package javax;
 
-//import Akun.TransaksiGUI;
+//<<<<<<< HEAD
+//
+//>>>>>>> branchAffan
 
 /**
  *

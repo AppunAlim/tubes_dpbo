@@ -24,14 +24,4 @@ public class Akun {
     public boolean cekPassword(String pass) {
         return this.password.equals(pass);
     }
-
-    // Metode untuk cari akun berdasarkan username
-    public static Akun cariAkun(String username) {
-        for (Akun akun : daftarAkun) {
-            if (akun.getUsername().equals(username)) {
-                return akun;
-            }
-        }
-        return null;
-    }
 }
