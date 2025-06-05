@@ -1,0 +1,37 @@
+package Akun;
+
+import java.util.ArrayList;
+
+public class Akun {
+    private String username;
+    private String password;
+    private String noTelp;
+
+    // List static untuk menyimpan semua akun
+    public static ArrayList<Akun> daftarAkun = new ArrayList<>();
+
+    public Akun(String username, String password, String noTelp) {
+        this.username = username;
+        this.password = password;
+        this.noTelp = noTelp;
+        daftarAkun.add(this);  // otomatis disimpan ke list saat buat objek baru
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public boolean cekPassword(String pass) {
+        return this.password.equals(pass);
+    }
+
+    // Metode untuk cari akun berdasarkan username
+    public static Akun cariAkun(String username) {
+        for (Akun akun : daftarAkun) {
+            if (akun.getUsername().equals(username)) {
+                return akun;
+            }
+        }
+        return null;
+    }
+}
