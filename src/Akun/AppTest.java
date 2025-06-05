@@ -17,7 +17,7 @@ public class AppTest {
     public static void main(String[] args) {
         
 
-        new loginPage().setVisible(true);
+        new progess_bar().setVisible(true);
     }
     
 }

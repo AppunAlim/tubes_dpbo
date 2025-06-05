@@ -167,8 +167,8 @@ public class progess_bar extends javax.swing.JFrame {
 //                  progess_bar.setVisible(true);
 
 
-                    loginPage L = new loginPage();
-                    L.setVisible(true);
+                    //loginPage L = new loginPage();
+                    //L.setVisible(true);
                     sbar.setVisible(false);
                     
                }
