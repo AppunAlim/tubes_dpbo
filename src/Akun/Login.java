@@ -5,6 +5,8 @@
  */
 package Akun;
 
+import Produk.Keranjang;
+import Produk.ProdukGUI;
 import java.awt.Color;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
@@ -234,7 +236,9 @@ public class Login extends javax.swing.JFrame {
         if (akunDitemukan.cekPassword(pass)) {
             JOptionPane.showMessageDialog(this, "Login berhasil! Selamat datang " + user, 
                 "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            // lanjutkan ke halaman utama aplikasi
+            ProdukGUI pro = new ProdukGUI(user);
+            String usernameAktif = akunDitemukan.getUsername();
+            pro.setVisible(true);
             this.dispose();
             // misal: new MainPage().setVisible(true);
         } else {
