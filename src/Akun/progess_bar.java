@@ -5,6 +5,8 @@
  */
 package Akun;
 
+import static sun.security.jgss.GSSUtil.login;
+
 
 
 
@@ -167,8 +169,8 @@ public class progess_bar extends javax.swing.JFrame {
 //                  progess_bar.setVisible(true);
 
 
-                    //loginPage L = new loginPage();
-                    //L.setVisible(true);
+                    Login l = new Login();
+                    l.setVisible(true);
                     sbar.setVisible(false);
                     
                }
