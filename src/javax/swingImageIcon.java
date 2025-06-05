@@ -5,7 +5,7 @@
  */
 package javax;
 
-import Akun.paymentPage;
+//import Akun.TransaksiGUI;
 
 /**
  *
@@ -13,8 +13,8 @@ import Akun.paymentPage;
  */
 public class swingImageIcon {
 
-    public swingImageIcon(Class<? extends paymentPage> aClass) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    public swingImageIcon(Class<? extends paymentPage> aClass) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     
 }
