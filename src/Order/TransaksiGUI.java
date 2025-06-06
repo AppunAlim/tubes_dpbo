@@ -5,9 +5,16 @@
  */
 package Order;
 
+import Order.Invoice;
 import Produk.Keranjang;
+import Produk.PCGaming;
+import Produk.Produk;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,38 +25,45 @@ public class TransaksiGUI extends javax.swing.JFrame {
     /**
      * Creates new form TransaksiGUI
      */
+    private ArrayList<Produk> produkDicheckout;
+    private String alamatPengiriman;
+    
     public TransaksiGUI() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
     
-    public TransaksiGUI(String customerName, String subTotal, javax.swing.JTable keranjangTable) {
-        initComponents(); // WAJIB dipanggil pertama untuk membangun komponen GUI
+    public TransaksiGUI(String customerName, String subTotal, String alamat, ArrayList<Produk> itemsDariKeranjang) {
+        initComponents(); 
         this.setLocationRelativeTo(null);
+        
+        this.produkDicheckout = itemsDariKeranjang;
+        this.alamatPengiriman = alamat;
 
-        // 1. Set nama customer dan subtotal
         Cname.setText(customerName);
         sb.setText(subTotal);
 
-        // 2. Salin data dari tabel keranjang ke tabel transaksi
-        // Ambil model dari tabel sumber (Keranjang) dan tujuan (TransaksiGUI)
-        javax.swing.table.DefaultTableModel sourceModel = (javax.swing.table.DefaultTableModel) keranjangTable.getModel();
-        javax.swing.table.DefaultTableModel destinationModel = (javax.swing.table.DefaultTableModel) this.tabel.getModel();
-
-        // Loop melalui setiap baris di tabel keranjang
-        for (int i = 0; i < sourceModel.getRowCount(); i++) {
-            // Ambil data dari setiap kolom yang relevan di tabel keranjang
-            // Urutan indeks: 0=Date, 1=Customer Name, 2=Address, 3=Item Code, 4=Item Name, 5=Spesifikasi, 6=Price
-            Object date = sourceModel.getValueAt(i, 0);
-            Object address = sourceModel.getValueAt(i, 2);
-            Object itemName = sourceModel.getValueAt(i, 4);
-            Object price = sourceModel.getValueAt(i, 5);
-            Object spesifikasi = sourceModel.getValueAt(i, 6);
-
-            // Tambahkan data ke tabel transaksi sesuai urutan kolomnya
-            // Urutan kolom di TransaksiGUI: Date, Address, Item Name, Price, Spesifikasi
-            destinationModel.addRow(new Object[]{date, address, itemName, price, spesifikasi});
+       
+        DefaultTableModel model = (DefaultTableModel) this.tabel.getModel();
+        for (Produk p : this.produkDicheckout) {
+            String spesifikasi = "N/A";
+            if (p instanceof PCGaming) {
+                spesifikasi = String.join(", ", p.getSpesifikasi());
+            }
+            
+            model.addRow(new Object[]{
+                new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()),
+                this.alamatPengiriman,
+                p.getNama(),
+                formattingCurrency(p.getHarga()),
+                spesifikasi
+            });
         }
+    }
+    
+    private String formattingCurrency(int number) {
+        NumberFormat currencyUK = NumberFormat.getCurrencyInstance(Locale.UK);
+        return currencyUK.format(number).replace("£", "Rp ").replace(".00", "");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -368,96 +382,60 @@ public class TransaksiGUI extends javax.swing.JFrame {
     private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
         // TODO add your handling code here:
 
-        String can="";
+         String can="";
 
         can+="Do You Sure Want To Leave Payment Page?";
         int result = JOptionPane.showConfirmDialog(null,can);
 
         if (result == JOptionPane.YES_OPTION){
-            Keranjang ker = new Keranjang();
-
-            ker.setVisible(true);
-            ker.setLocationRelativeTo(null);
-            this.dispose();
-
+            this.dispose(); 
         }
 
     }//GEN-LAST:event_cancelActionPerformed
 
     private void payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payActionPerformed
-        // 1. Ambil nilai dari komponen GUI
-    String subTotalTeks = sb.getText();
-    String uangBayarTeks = Topay.getText();
-    String metodePembayaran = "";
-    if (method.getSelectedItem() != null) {
-        metodePembayaran = method.getSelectedItem().toString();
-    }
-
-    // 2. Validasi input
-    if (uangBayarTeks.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Silakan masukkan jumlah uang pembayaran.", "Input Kosong", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    if (metodePembayaran.isEmpty() || metodePembayaran.equals("Select Payment Method")) {
-        JOptionPane.showMessageDialog(this, "Silakan pilih metode pembayaran.", "Input Kosong", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    try {
-        // 3. Konversi teks menjadi angka untuk perhitungan
-        String subTotalBersih = subTotalTeks.replaceAll("[^\\d]", "");
-        int subTotalAngka = Integer.parseInt(subTotalBersih);
-        int uangBayarAngka = Integer.parseInt(uangBayarTeks);
-
-        // 4. Logika Perbandingan Pembayaran
-        if (uangBayarAngka < subTotalAngka) {
-            // Jika uang kurang
-            JOptionPane.showMessageDialog(this, "Jumlah pembayaran tidak mencukupi!", "Pembayaran Gagal", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Jika uang cukup atau lebih
-            int kembalian = uangBayarAngka - subTotalAngka;
-
-            // --- BAGIAN BARU: MENGAMBIL DAFTAR BARANG DARI TABEL ---
-            StringBuilder daftarBarang = new StringBuilder();
-            daftarBarang.append("Purchased Items:\n");
-            
-            // Loop melalui setiap baris di tabel transaksi
-            for (int i = 0; i < tabel.getRowCount(); i++) {
-                // Ambil nama barang (indeks 2) dan harga (indeks 3)
-                String namaBarang = tabel.getValueAt(i, 2).toString();
-                String hargaBarang = tabel.getValueAt(i, 3).toString();
-                daftarBarang.append(String.format("- %s (%s)\n", namaBarang, hargaBarang));
-            }
-            // --- AKHIR BAGIAN BARU ---
-
-            // Siapkan struk pembayaran lengkap dengan daftar barang
-            String St = "";
-            St += "========================================\n";
-            St += "             PAYMENT SUCCESS\n";
-            St += "========================================\n";
-            St += "Name: " + Cname.getText() + "\n";
-            St += "Payment Method: " + metodePembayaran + "\n";
-            St += "----------------------------------------\n";
-            St += daftarBarang.toString(); // Masukkan daftar barang di sini
-            St += "----------------------------------------\n";
-            St += "Sub Total: " + sb.getText() + "\n";
-            St += "Total Pay: Rp. " + uangBayarTeks + "\n";
-            St += "Change: Rp. " + kembalian + "\n";
-            St += "========================================\n";
-            St += "    Thank You For Your Purchase!    \n";
-            
-            // Tampilkan pesan sukses
-            Icon icon = new javax.swing.ImageIcon(getClass().getResource("/image/icons8-checkmark-48.png"));
-            JOptionPane.showMessageDialog(this, St, "Success", JOptionPane.INFORMATION_MESSAGE, icon);
-
-            // Tutup jendela
-            this.dispose();
+        String subTotalTeks = sb.getText();
+        String uangBayarTeks = Topay.getText();
+        String metodePembayaran = "";
+        if (method.getSelectedItem() != null) {
+            metodePembayaran = method.getSelectedItem().toString();
         }
 
-    } catch (NumberFormatException e) {
-        // Tangani jika input pembayaran bukan angka
-        JOptionPane.showMessageDialog(this, "Harap masukkan format angka yang valid untuk pembayaran.", "Input Salah", JOptionPane.ERROR_MESSAGE);
-    }
+        if (uangBayarTeks.isEmpty() || metodePembayaran.isEmpty() || metodePembayaran.equals("Select Payment Method")) {
+            JOptionPane.showMessageDialog(this, "Metode pembayaran dan jumlah bayar harus diisi.", "Input Kosong", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            String subTotalBersih = subTotalTeks.replaceAll("[^\\d]", "");
+            int subTotalAngka = Integer.parseInt(subTotalBersih);
+            int uangBayarAngka = Integer.parseInt(uangBayarTeks);
+
+            if (uangBayarAngka < subTotalAngka) {
+                JOptionPane.showMessageDialog(this, "Jumlah pembayaran tidak mencukupi!", "Pembayaran Gagal", JOptionPane.ERROR_MESSAGE);
+            } else {
+                
+                Produk[] produkDiBeli = produkDicheckout.toArray(new Produk[0]);
+
+                Invoice invoice = new Invoice(produkDiBeli, subTotalAngka, metodePembayaran, this.alamatPengiriman);
+
+                String strukDasar = invoice.cetakInvoice();
+
+                int kembalian = uangBayarAngka - subTotalAngka;
+                String strukLengkap = strukDasar.replace(
+                    "========================================",
+                    String.format("----------------------------------------\nTotal Bayar      : Rp %,d\nKembalian        : Rp %,d\n========================================", uangBayarAngka, kembalian)
+                );
+
+                Icon icon = new javax.swing.ImageIcon(getClass().getResource("/image/icons8-checkmark-48.png"));
+                JOptionPane.showMessageDialog(this, strukLengkap, "Success", JOptionPane.INFORMATION_MESSAGE, icon);
+
+                this.dispose();
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Harap masukkan format angka yang valid untuk pembayaran.", "Input Salah", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_payActionPerformed
 

@@ -231,7 +231,6 @@ public class Register extends javax.swing.JFrame {
         String pass = new String(password.getPassword()).trim();
         String telp = noTelp.getText().trim();
 
-        // Validasi input menggunakan exception
         if(user.isEmpty() || user.equals("Username")) {
             throw new RegisterException("Username tidak boleh kosong.");
         }
@@ -242,20 +241,17 @@ public class Register extends javax.swing.JFrame {
             throw new RegisterException("No Telepon tidak boleh kosong.");
         }
 
-        // Cek apakah username sudah terdaftar
         for (Akun a : Akun.daftarAkun) {
             if (a.getUsername().equals(user)) {
                 throw new RegisterException("Username sudah terdaftar, silakan gunakan username lain.");
             }
         }
 
-        // Jika lolos validasi, buat akun baru
         Akun akunBaru = new Akun(user, pass, telp);
         Icon icon = new javax.swing.ImageIcon(getClass().getResource("/image/icons8-checkmark-48.png"));
         JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silakan login menggunakan akun Anda.",
                 "Sukses", JOptionPane.INFORMATION_MESSAGE,icon);
 
-        // Buka halaman login
         Login lp = new Login();
         lp.setVisible(true);
         lp.setLocationRelativeTo(null);

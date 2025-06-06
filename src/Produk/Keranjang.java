@@ -25,6 +25,7 @@ public class Keranjang extends javax.swing.JFrame {
      * Creates new form Keranjang
      */
     private ArrayList<Produk> daftarProduk;
+    private ArrayList<Produk> itemDiKeranjang; 
     int mouseX, mouseY;
     private String currentUser;
     private int hasilPerhitungan;
@@ -32,15 +33,16 @@ public class Keranjang extends javax.swing.JFrame {
     public Keranjang(String loginUsername) {
         
         initComponents();
+        itemDiKeranjang = new ArrayList<>();
         this.setLocationRelativeTo(null);
         this.currentUser = loginUsername;
         
-        if (this.name != null) { // Pastikan JTextField 'name' tidak null
-            this.name.setText(loginUsername); // Set teks JTextField 'name' dengan username yang diterima
+        if (this.name != null) { 
+            this.name.setText(loginUsername); 
         } else {
             System.err.println("PERINGATAN: JTextField 'name' di Keranjang.java belum terinisialisasi!");
         }
-        Date dt = new Date();//meamanggil tgl secara otomatis(tgl hari ini)
+        Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String tgl = sdf.format(dt);
         
@@ -61,15 +63,13 @@ public class Keranjang extends javax.swing.JFrame {
     daftarProduk.add(new PCGaming("P04", "MSI Cyborg 15 A12VF-429ID", 17799000, "Gaming Laptop", 0,
             "Intel Core i7-12650H", "NVIDIA GeForce RTX 4060 Laptop GPU", 16, "1TB NVMe PCIe Gen4 SSD"));
 
-    // bisa juga isi combo box pakai daftarProduk
     for (Produk p : daftarProduk) {
         combo.addItem(p.getId());
     }
         
     }
     public Keranjang() {
-        this("Guest"); // Panggil konstruktor utama dengan username "Guest"
-                       // Ini akan menjalankan semua inisialisasi di konstruktor Keranjang(String)
+        this("Guest");
     }
 
     /**
@@ -509,44 +509,43 @@ public class Keranjang extends javax.swing.JFrame {
     String hargaString = harga.getText();
 
     if (namaCustomer.isEmpty() || alamatCustomer.isEmpty() ||
-        itemKode == null || itemKode.equals("Item Code") || // Sesuaikan placeholder jika beda
+        itemKode == null || itemKode.equals("Pilih Kode Item") ||
         itemName.equals("-") || itemName.isEmpty() ||
         hargaString.equals("0") || hargaString.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Harap lengkapi semua data dan pilih item terlebih dahulu.", "Input Tidak Lengkap", javax.swing.JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Harap lengkapi semua data dan pilih item terlebih dahulu.", "Input Tidak Lengkap", javax.swing.JOptionPane.WARNING_MESSAGE);
         return;
     }
 
-    // --- BAGIAN TAMBAHAN UNTUK MENGAMBIL SPESIFIKASI ---
-    String spesifikasiItem = "Tidak ada spesifikasi"; // Nilai default
-    Produk produkTerpilih = null;
-
-    // Cari produk yang sesuai dengan itemKode di daftarProduk
+    Produk produkDipilih = null;
     for (Produk p : daftarProduk) {
         if (p.getId().equals(itemKode)) {
-            produkTerpilih = p;
+            produkDipilih = p; 
             break;
         }
     }
 
-    // Jika produk ditemukan dan merupakan instance dari PCGaming
-    if (produkTerpilih instanceof PCGaming) {
-        PCGaming pc = (PCGaming) produkTerpilih;
-        // Gabungkan array spesifikasi menjadi satu String
-        spesifikasiItem = String.format("CPU: %s, GPU: %s, RAM: %dGB",
-                                        pc.getProcessor(), pc.getGpu(), pc.getRam());
-    }
-    // --- AKHIR BAGIAN TAMBAHAN ---
-
-
-    int hargaItemNumerik;
-    try {
-       String hargaBersih = hargaString.replace(",", "").replace("Rp.", "").replace("Rp", "").trim();
-       hargaItemNumerik = Integer.parseInt(hargaBersih);
-    } catch (NumberFormatException e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Format harga item tidak valid.", "Error Harga", javax.swing.JOptionPane.ERROR_MESSAGE);
+    if (produkDipilih == null) {
+        JOptionPane.showMessageDialog(this, "Produk dengan kode " + itemKode + " tidak ditemukan.", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
+    
+    itemDiKeranjang.add(produkDipilih);
+
+    String spesifikasiItem = "Tidak ada";
+    if (produkDipilih instanceof PCGaming) {
+        PCGaming pc = (PCGaming) produkDipilih;
+        spesifikasiItem = String.format("CPU: %s, GPU: %s", pc.getProcessor(), pc.getGpu());
+    }
+
+    int hargaItemNumerik;
+    try {
+        String hargaBersih = hargaString.replaceAll("[^\\d]", "");
+        hargaItemNumerik = Integer.parseInt(hargaBersih);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Format harga item tidak valid.", "Error Harga", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
     DefaultTableModel model = (DefaultTableModel) tabel.getModel();
     model.addRow(new Object[]{
@@ -560,10 +559,7 @@ public class Keranjang extends javax.swing.JFrame {
     });
 
     this.hasilPerhitungan += hargaItemNumerik;
-
-    if (this.total != null) {
-        this.total.setText(formattingCurrency(this.hasilPerhitungan));
-    }
+    total.setText(formattingCurrency(this.hasilPerhitungan));
 
     combo.setSelectedIndex(0);
     Iname.setText("-");
@@ -589,19 +585,17 @@ public class Keranjang extends javax.swing.JFrame {
 
          String selectedId = (String) combo.getSelectedItem();
 
-    // Jika item placeholder terpilih atau tidak ada yang terpilih
-    if (selectedId == null || selectedId.equals("Item Code") || selectedId.equals("Pilih Kode Item")) { // Sesuaikan placeholder
+    if (selectedId == null || selectedId.equals("Item Code") || selectedId.equals("Pilih Kode Item")) { 
         Iname.setText("Silakan pilih kode item");
-        harga.setText("0"); // Atau "-"
+        harga.setText("0"); 
         return;
     }
 
     boolean found = false;
-    for (Produk produk : daftarProduk) { // Loop melalui daftarProduk
+    for (Produk produk : daftarProduk) { 
         if (produk.getId().equals(selectedId)) {
             Iname.setText(produk.getNama());
-            // Format harga. Pastikan produk.getHarga() mengembalikan nilai numerik (long/int/double)
-            harga.setText(String.valueOf(produk.getHarga())); // Nanti bisa diformat dengan Rp.
+            harga.setText(String.valueOf(produk.getHarga())); 
             found = true;
             break;
         }
@@ -609,7 +603,7 @@ public class Keranjang extends javax.swing.JFrame {
 
     if (!found) {
         Iname.setText("Item Tidak Ditemukan");
-        harga.setText("0"); // Atau "-"
+        harga.setText("0"); 
     }   
 
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -620,25 +614,19 @@ public class Keranjang extends javax.swing.JFrame {
 
     private void checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutActionPerformed
         // TODO add your handling code here:
-         // 1. Pastikan keranjang tidak kosong sebelum checkout
-    if (tabel.getRowCount() == 0) {
+        
+     if (tabel.getRowCount() == 0) {
         JOptionPane.showMessageDialog(this, "Keranjang belanja masih kosong!", "Keranjang Kosong", JOptionPane.WARNING_MESSAGE);
-        return; // Hentikan proses jika keranjang kosong
+        return;
     }
 
-    // 2. Ambil semua data yang akan dikirim
     String customerName = name.getText();
     String subTotal = total.getText();
-    // kita akan mengirim seluruh objek tabelnya
-    javax.swing.JTable keranjangTable = this.tabel;
+    String alamat = addres.getText(); 
 
-    // 3. Buat instance TransaksiGUI menggunakan konstruktor BARU
-    TransaksiGUI pay = new TransaksiGUI(customerName, subTotal, keranjangTable);
+    TransaksiGUI pay = new TransaksiGUI(customerName, subTotal, alamat, itemDiKeranjang);
 
-    // 4. Tampilkan frame transaksi
     pay.setVisible(true);
-
-    // 5. Tutup frame keranjang
     this.dispose();
 
     }//GEN-LAST:event_checkoutActionPerformed
@@ -649,51 +637,40 @@ public class Keranjang extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tabel.getModel();
     int selectedRowIndex = tabel.getSelectedRow();
 
-    // 1. Pastikan ada baris yang dipilih
-    if (selectedRowIndex == -1) { // -1 berarti tidak ada baris yang dipilih
-        javax.swing.JOptionPane.showMessageDialog(this, "Silakan pilih baris produk yang ingin dihapus.", "Tidak Ada Baris Terpilih", javax.swing.JOptionPane.WARNING_MESSAGE);
-        return; // Keluar dari metode jika tidak ada yang dipilih
+    if (selectedRowIndex == -1) {
+        JOptionPane.showMessageDialog(this, "Silakan pilih baris produk yang ingin dihapus.", "Tidak Ada Baris Terpilih", JOptionPane.WARNING_MESSAGE);
+        return;
     }
 
-    // 2. Ambil nilai harga dari tabel (kolom ke-6, indeks 5)
-    // Asumsi kolom harga adalah kolom ke-6 (indeks 5)
+
+    String itemKodeDihapus = model.getValueAt(selectedRowIndex, 3).toString();
+
+
+    Produk produkDihapus = null;
+    for(Produk p : itemDiKeranjang){
+        if(p.getId().equals(itemKodeDihapus)){
+            produkDihapus = p;
+            break;
+        }
+    }
+    if(produkDihapus != null){
+        itemDiKeranjang.remove(produkDihapus);
+        System.out.println("LOG: Produk " + produkDihapus.getNama() + " dihapus dari data keranjang.");
+    }
+
     String hargaDariTabelString = model.getValueAt(selectedRowIndex, 5).toString();
     int hargaItemDihapus;
-
     try {
-        // 3. Konversi string harga dari tabel kembali ke angka (int)
-        // Ini perlu membersihkan format mata uang seperti "Rp. ", ".", dan ","
-        // Sesuaikan pembersihan ini dengan format yang dihasilkan oleh formattingCurrency() Anda
-        String hargaBersih = hargaDariTabelString
-                .replace("Rp", "")  // Hapus "Rp"
-                .replace(".", "")   // Hapus titik sebagai pemisah ribuan (jika ada)
-                .replace(",", "")   // Hapus koma sebagai pemisah ribuan (jika ada)
-                .trim();            // Hapus spasi di awal/akhir
-
-        // Jika formattingCurrency menghasilkan ",00" di akhir, hapus juga
-        if (hargaBersih.endsWith("00") && hargaBersih.length() > 2 && hargaBersih.charAt(hargaBersih.length()-3) == Character.MIN_VALUE) { // Hacky check for typical decimal separator
-             hargaBersih = hargaBersih.substring(0, hargaBersih.length() - 3); // Hapus ,00 jika ada
-        }
-
-
+        String hargaBersih = hargaDariTabelString.replaceAll("[^\\d]", "");
         hargaItemDihapus = Integer.parseInt(hargaBersih);
     } catch (NumberFormatException e) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Tidak dapat membaca format harga dari tabel untuk item yang dipilih: " + hargaDariTabelString, "Error Format Harga", javax.swing.JOptionPane.ERROR_MESSAGE);
-        // Anda bisa log errornya juga: e.printStackTrace();
-        return; // Keluar jika tidak bisa mem-parsing harga
+        JOptionPane.showMessageDialog(this, "Tidak dapat membaca format harga dari tabel.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
 
-    // 4. Kurangkan harga item yang dihapus dari total perhitungan
-    // Pastikan 'hasilPerhitungan' adalah field di kelas Keranjang (misal: private int hasilPerhitungan;)
     this.hasilPerhitungan -= hargaItemDihapus;
-
-    // 5. Hapus baris dari model tabel
     model.removeRow(selectedRowIndex);
-
-    // 6. Update tampilan JLabel 'total'
-    if (this.total != null) { // Pastikan JLabel total ada
-        this.total.setText(formattingCurrency(this.hasilPerhitungan));
-    }
+    total.setText(formattingCurrency(this.hasilPerhitungan));
 
     }//GEN-LAST:event_RemoveActionPerformed
 

@@ -203,7 +203,6 @@ public class Login extends javax.swing.JFrame {
         String user = username.getText();
     String pass = new String(password.getPassword());
 
-    // Cari akun yang username-nya sama dengan input user
     Akun akunDitemukan = null;
     for (Akun a : Akun.daftarAkun) {
         if (a.getUsername().equals(user)) {
@@ -213,7 +212,6 @@ public class Login extends javax.swing.JFrame {
     }
 
     if (akunDitemukan == null) {
-        // Username tidak ditemukan, arahkan ke register
         int pilih = JOptionPane.showConfirmDialog(this, 
             "Username tidak ditemukan.\nApakah Anda ingin mendaftar terlebih dahulu?", 
             "Akun Tidak Ada", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -221,9 +219,8 @@ public class Login extends javax.swing.JFrame {
         if (pilih == JOptionPane.YES_OPTION) {
             Register rg = new Register();
             rg.setVisible(true);
-            this.dispose(); // tutup halaman login
+            this.dispose(); 
         } else {
-            // User pilih tidak daftar, bisa beri pesan atau biarkan tetap di login
             JOptionPane.showMessageDialog(this, "Silakan coba login kembali atau daftar akun baru.", 
                 "Info", JOptionPane.INFORMATION_MESSAGE);
             // reset field
@@ -232,7 +229,6 @@ public class Login extends javax.swing.JFrame {
         }
 
     } else {
-        // Username ditemukan, cek password
         if (akunDitemukan.cekPassword(pass)) {
             Icon icon = new javax.swing.ImageIcon(getClass().getResource("/image/icons8-checkmark-48.png"));
             JOptionPane.showMessageDialog(this, "Login berhasil! Selamat datang " + user, 
@@ -241,7 +237,6 @@ public class Login extends javax.swing.JFrame {
             String usernameAktif = akunDitemukan.getUsername();
             pro.setVisible(true);
             this.dispose();
-            // misal: new MainPage().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Password salah! Silakan coba lagi.", 
                 "Gagal", JOptionPane.ERROR_MESSAGE);

@@ -165,9 +165,6 @@ public class progess_bar extends javax.swing.JFrame {
                if (i==100){
                    sbar.te.setText("COMPLETE.....");
                    
-                   
-//                  progess_bar.setVisible(true);
-
 
                     Login l = new Login();
                     l.setVisible(true);
