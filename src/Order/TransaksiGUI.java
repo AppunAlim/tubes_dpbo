@@ -5,6 +5,10 @@
  */
 package Order;
 
+import Produk.Keranjang;
+import javax.swing.Icon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author AFFAN SALIM
@@ -16,8 +20,37 @@ public class TransaksiGUI extends javax.swing.JFrame {
      */
     public TransaksiGUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
+    
+    public TransaksiGUI(String customerName, String subTotal, javax.swing.JTable keranjangTable) {
+        initComponents(); // WAJIB dipanggil pertama untuk membangun komponen GUI
+        this.setLocationRelativeTo(null);
 
+        // 1. Set nama customer dan subtotal
+        Cname.setText(customerName);
+        sb.setText(subTotal);
+
+        // 2. Salin data dari tabel keranjang ke tabel transaksi
+        // Ambil model dari tabel sumber (Keranjang) dan tujuan (TransaksiGUI)
+        javax.swing.table.DefaultTableModel sourceModel = (javax.swing.table.DefaultTableModel) keranjangTable.getModel();
+        javax.swing.table.DefaultTableModel destinationModel = (javax.swing.table.DefaultTableModel) this.tabel.getModel();
+
+        // Loop melalui setiap baris di tabel keranjang
+        for (int i = 0; i < sourceModel.getRowCount(); i++) {
+            // Ambil data dari setiap kolom yang relevan di tabel keranjang
+            // Urutan indeks: 0=Date, 1=Customer Name, 2=Address, 3=Item Code, 4=Item Name, 5=Spesifikasi, 6=Price
+            Object date = sourceModel.getValueAt(i, 0);
+            Object address = sourceModel.getValueAt(i, 2);
+            Object itemName = sourceModel.getValueAt(i, 4);
+            Object price = sourceModel.getValueAt(i, 5);
+            Object spesifikasi = sourceModel.getValueAt(i, 6);
+
+            // Tambahkan data ke tabel transaksi sesuai urutan kolomnya
+            // Urutan kolom di TransaksiGUI: Date, Address, Item Name, Price, Spesifikasi
+            destinationModel.addRow(new Object[]{date, address, itemName, price, spesifikasi});
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,20 +61,290 @@ public class TransaksiGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        loginLabel = new javax.swing.JLabel();
+        loginLabel1 = new javax.swing.JLabel();
+        loginLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        Cname = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        sb = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        Topay = new javax.swing.JTextField();
+        cancel = new javax.swing.JButton();
+        pay = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabel = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        method = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 255));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        loginLabel.setFont(new java.awt.Font("OCR A Extended", 1, 24)); // NOI18N
+        loginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loginLabel.setText("Check Out The Fun Goods");
+
+        loginLabel1.setFont(new java.awt.Font("OCR A Extended", 1, 24)); // NOI18N
+        loginLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        loginLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loginLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-ps-controller-60.png"))); // NOI18N
+
+        loginLabel2.setFont(new java.awt.Font("OCR A Extended", 1, 24)); // NOI18N
+        loginLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        loginLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loginLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-pc-64.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(loginLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 967, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(loginLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loginLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel5.setFont(new java.awt.Font("OCR A Extended", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel5.setText(" PAYMENT");
+
+        jLabel18.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Customer Name ");
+
+        Cname.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        Cname.setForeground(new java.awt.Color(255, 255, 255));
+        Cname.setText("-");
+
+        jLabel23.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText(":");
+
+        jLabel24.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setText("Sub Total ");
+
+        jLabel25.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel25.setText(":");
+
+        sb.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        sb.setForeground(new java.awt.Color(255, 255, 255));
+        sb.setText("0");
+
+        jLabel28.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Total Pay ");
+
+        jLabel17.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText(":");
+
+        jLabel21.setFont(new java.awt.Font("OCR A Extended", 1, 20)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Rp. ");
+
+        Topay.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
+        Topay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TopayActionPerformed(evt);
+            }
+        });
+
+        cancel.setBackground(new java.awt.Color(255, 255, 255));
+        cancel.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        cancel.setText("CANCEL\n\n");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
+
+        pay.setBackground(new java.awt.Color(255, 255, 255));
+        pay.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        pay.setText("PAY");
+        pay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                payActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 8, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 517, Short.MAX_VALUE)
+        );
+
+        tabel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Date", "Address", "Item Name", "Price", "Spesifikasi"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tabel);
+
+        jLabel6.setFont(new java.awt.Font("OCR A Extended", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel6.setText("ITEMS");
+
+        method.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
+        method.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Payment Method", "Cash", "QR", "Debit", "Virtual Account" }));
+        method.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                methodActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 940, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cancel)
+                                        .addGap(138, 138, 138))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel28)
+                                        .addGap(50, 50, 50)
+                                        .addComponent(jLabel17)
+                                        .addGap(7, 7, 7)
+                                        .addComponent(jLabel21)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Topay, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(pay)
+                                        .addGap(99, 99, 99))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel18)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(180, 180, 180)
+                                                .addComponent(jLabel23)))
+                                        .addGap(17, 17, 17)
+                                        .addComponent(Cname))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel24)
+                                        .addGap(50, 50, 50)
+                                        .addComponent(jLabel25)
+                                        .addGap(17, 17, 17)
+                                        .addComponent(sb))
+                                    .addComponent(method, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(165, 165, 165)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(62, 62, 62)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel23)
+                            .addComponent(Cname))
+                        .addGap(22, 22, 22)
+                        .addComponent(method, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel25)
+                            .addComponent(sb))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel17)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel21)
+                                .addComponent(Topay, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(77, 77, 77)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cancel)
+                            .addComponent(pay))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(96, 96, 96))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -57,6 +360,110 @@ public class TransaksiGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void TopayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TopayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TopayActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        // TODO add your handling code here:
+
+        String can="";
+
+        can+="Do You Sure Want To Leave Payment Page?";
+        int result = JOptionPane.showConfirmDialog(null,can);
+
+        if (result == JOptionPane.YES_OPTION){
+            Keranjang ker = new Keranjang();
+
+            ker.setVisible(true);
+            ker.setLocationRelativeTo(null);
+            this.dispose();
+
+        }
+
+    }//GEN-LAST:event_cancelActionPerformed
+
+    private void payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payActionPerformed
+        // 1. Ambil nilai dari komponen GUI
+    String subTotalTeks = sb.getText();
+    String uangBayarTeks = Topay.getText();
+    String metodePembayaran = "";
+    if (method.getSelectedItem() != null) {
+        metodePembayaran = method.getSelectedItem().toString();
+    }
+
+    // 2. Validasi input
+    if (uangBayarTeks.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Silakan masukkan jumlah uang pembayaran.", "Input Kosong", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    if (metodePembayaran.isEmpty() || metodePembayaran.equals("Select Payment Method")) {
+        JOptionPane.showMessageDialog(this, "Silakan pilih metode pembayaran.", "Input Kosong", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        // 3. Konversi teks menjadi angka untuk perhitungan
+        String subTotalBersih = subTotalTeks.replaceAll("[^\\d]", "");
+        int subTotalAngka = Integer.parseInt(subTotalBersih);
+        int uangBayarAngka = Integer.parseInt(uangBayarTeks);
+
+        // 4. Logika Perbandingan Pembayaran
+        if (uangBayarAngka < subTotalAngka) {
+            // Jika uang kurang
+            JOptionPane.showMessageDialog(this, "Jumlah pembayaran tidak mencukupi!", "Pembayaran Gagal", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Jika uang cukup atau lebih
+            int kembalian = uangBayarAngka - subTotalAngka;
+
+            // --- BAGIAN BARU: MENGAMBIL DAFTAR BARANG DARI TABEL ---
+            StringBuilder daftarBarang = new StringBuilder();
+            daftarBarang.append("Purchased Items:\n");
+            
+            // Loop melalui setiap baris di tabel transaksi
+            for (int i = 0; i < tabel.getRowCount(); i++) {
+                // Ambil nama barang (indeks 2) dan harga (indeks 3)
+                String namaBarang = tabel.getValueAt(i, 2).toString();
+                String hargaBarang = tabel.getValueAt(i, 3).toString();
+                daftarBarang.append(String.format("- %s (%s)\n", namaBarang, hargaBarang));
+            }
+            // --- AKHIR BAGIAN BARU ---
+
+            // Siapkan struk pembayaran lengkap dengan daftar barang
+            String St = "";
+            St += "========================================\n";
+            St += "             PAYMENT SUCCESS\n";
+            St += "========================================\n";
+            St += "Name: " + Cname.getText() + "\n";
+            St += "Payment Method: " + metodePembayaran + "\n";
+            St += "----------------------------------------\n";
+            St += daftarBarang.toString(); // Masukkan daftar barang di sini
+            St += "----------------------------------------\n";
+            St += "Sub Total: " + sb.getText() + "\n";
+            St += "Total Pay: Rp. " + uangBayarTeks + "\n";
+            St += "Change: Rp. " + kembalian + "\n";
+            St += "========================================\n";
+            St += "    Thank You For Your Purchase!    \n";
+            
+            // Tampilkan pesan sukses
+            Icon icon = new javax.swing.ImageIcon(getClass().getResource("/image/icons8-checkmark-48.png"));
+            JOptionPane.showMessageDialog(this, St, "Success", JOptionPane.INFORMATION_MESSAGE, icon);
+
+            // Tutup jendela
+            this.dispose();
+        }
+
+    } catch (NumberFormatException e) {
+        // Tangani jika input pembayaran bukan angka
+        JOptionPane.showMessageDialog(this, "Harap masukkan format angka yang valid untuk pembayaran.", "Input Salah", JOptionPane.ERROR_MESSAGE);
+    }
+
+    }//GEN-LAST:event_payActionPerformed
+
+    private void methodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_methodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_methodActionPerformed
 
     /**
      * @param args the command line arguments
@@ -94,6 +501,28 @@ public class TransaksiGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JLabel Cname;
+    private javax.swing.JTextField Topay;
+    private javax.swing.JButton cancel;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel loginLabel;
+    private javax.swing.JLabel loginLabel1;
+    private javax.swing.JLabel loginLabel2;
+    private javax.swing.JComboBox<String> method;
+    private javax.swing.JButton pay;
+    public javax.swing.JLabel sb;
+    private javax.swing.JTable tabel;
     // End of variables declaration//GEN-END:variables
 }

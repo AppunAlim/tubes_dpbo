@@ -234,8 +234,9 @@ public class Login extends javax.swing.JFrame {
     } else {
         // Username ditemukan, cek password
         if (akunDitemukan.cekPassword(pass)) {
+            Icon icon = new javax.swing.ImageIcon(getClass().getResource("/image/icons8-checkmark-48.png"));
             JOptionPane.showMessageDialog(this, "Login berhasil! Selamat datang " + user, 
-                "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                "Sukses", JOptionPane.INFORMATION_MESSAGE,icon);
             ProdukGUI pro = new ProdukGUI(user);
             String usernameAktif = akunDitemukan.getUsername();
             pro.setVisible(true);

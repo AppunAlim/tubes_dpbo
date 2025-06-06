@@ -251,9 +251,9 @@ public class Register extends javax.swing.JFrame {
 
         // Jika lolos validasi, buat akun baru
         Akun akunBaru = new Akun(user, pass, telp);
-
+        Icon icon = new javax.swing.ImageIcon(getClass().getResource("/image/icons8-checkmark-48.png"));
         JOptionPane.showMessageDialog(this, "Registrasi berhasil! Silakan login menggunakan akun Anda.",
-                "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                "Sukses", JOptionPane.INFORMATION_MESSAGE,icon);
 
         // Buka halaman login
         Login lp = new Login();
