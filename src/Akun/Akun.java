@@ -7,14 +7,13 @@ public class Akun {
     private String password;
     private String noTelp;
 
-    // List static untuk menyimpan semua akun
     public static ArrayList<Akun> daftarAkun = new ArrayList<>();
 
     public Akun(String username, String password, String noTelp) {
         this.username = username;
         this.password = password;
         this.noTelp = noTelp;
-        daftarAkun.add(this);  // otomatis disimpan ke list saat buat objek baru
+        daftarAkun.add(this);  
     }
 
     public String getUsername() {
