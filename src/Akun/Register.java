@@ -37,7 +37,7 @@ public class Register extends javax.swing.JFrame {
         noTelp = new javax.swing.JTextField();
         password = new javax.swing.JPasswordField();
         username = new javax.swing.JTextField();
-        Login = new javax.swing.JButton();
+        Register = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,15 +99,15 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        Login.setBackground(new java.awt.Color(255, 255, 255));
-        Login.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
-        Login.setForeground(new java.awt.Color(51, 153, 255));
-        Login.setText("Daftar");
-        Login.setBorder(null);
-        Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Login.addActionListener(new java.awt.event.ActionListener() {
+        Register.setBackground(new java.awt.Color(255, 255, 255));
+        Register.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
+        Register.setForeground(new java.awt.Color(51, 153, 255));
+        Register.setText("Daftar");
+        Register.setBorder(null);
+        Register.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginActionPerformed(evt);
+                RegisterActionPerformed(evt);
             }
         });
 
@@ -130,7 +130,7 @@ public class Register extends javax.swing.JFrame {
                                     .addComponent(username, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
-                                .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(Register, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -146,7 +146,7 @@ public class Register extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(noTelp, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
-                .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Register, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(91, Short.MAX_VALUE))
         );
 
@@ -224,7 +224,7 @@ public class Register extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
 
-    private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
+    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
         // TODO add your handling code here:
         try {
         String user = username.getText().trim();
@@ -239,6 +239,11 @@ public class Register extends javax.swing.JFrame {
         }
         if(telp.isEmpty() || telp.equals("No Telepon")) {
             throw new RegisterException("No Telepon tidak boleh kosong.");
+        }
+
+
+        if (!telp.matches("\\d+")) {
+            throw new RegisterException("No Telepon harus berupa angka.");
         }
 
         for (Akun a : Akun.daftarAkun) {
@@ -262,7 +267,7 @@ public class Register extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, ex.getMessage(),
                 "Error Registrasi", JOptionPane.ERROR_MESSAGE);
     }
-    }//GEN-LAST:event_LoginActionPerformed
+    }//GEN-LAST:event_RegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,7 +306,7 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Login;
+    private javax.swing.JButton Register;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel loginLabel;
     private javax.swing.JTextField noTelp;
