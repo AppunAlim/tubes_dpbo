@@ -37,7 +37,6 @@ public class Keranjang extends javax.swing.JFrame {
         
         tanggal.setText(tgl);
         
-        name.setMargin(new Insets(0,5,0,0));
         addres.setMargin(new Insets (0,5,0,0));
         
             
@@ -81,7 +80,6 @@ public class Keranjang extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
         addres = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         cancel = new javax.swing.JButton();
@@ -99,6 +97,7 @@ public class Keranjang extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         combo = new javax.swing.JComboBox<>();
+        name = new javax.swing.JLabel();
         total = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         checkout = new javax.swing.JButton();
@@ -190,14 +189,6 @@ public class Keranjang extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
 
-        name.setBackground(new java.awt.Color(204, 204, 204));
-        name.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
-        name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
-            }
-        });
-
         addres.setBackground(new java.awt.Color(204, 204, 204));
         addres.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
         addres.addActionListener(new java.awt.event.ActionListener() {
@@ -206,7 +197,6 @@ public class Keranjang extends javax.swing.JFrame {
             }
         });
 
-        btnAdd.setBackground(new java.awt.Color(255, 255, 255));
         btnAdd.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
         btnAdd.setText("Add");
         btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -216,7 +206,6 @@ public class Keranjang extends javax.swing.JFrame {
             }
         });
 
-        cancel.setBackground(new java.awt.Color(255, 255, 255));
         cancel.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
         cancel.setText("Cancel");
         cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -247,7 +236,6 @@ public class Keranjang extends javax.swing.JFrame {
         Iname.setFont(new java.awt.Font("OCR A Extended", 0, 16)); // NOI18N
         Iname.setText("-");
 
-        btnSearch.setBackground(new java.awt.Color(255, 255, 255));
         btnSearch.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
         btnSearch.setText("Search");
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -279,6 +267,9 @@ public class Keranjang extends javax.swing.JFrame {
                 comboActionPerformed(evt);
             }
         });
+
+        name.setFont(new java.awt.Font("OCR A Extended", 0, 18)); // NOI18N
+        name.setText("name");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -325,10 +316,10 @@ public class Keranjang extends javax.swing.JFrame {
                                                 .addGap(43, 43, 43)
                                                 .addComponent(jLabel14)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(name))))
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel12))
-                                .addGap(0, 69, Short.MAX_VALUE)))
+                                .addGap(0, 72, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,9 +350,9 @@ public class Keranjang extends javax.swing.JFrame {
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -398,7 +389,6 @@ public class Keranjang extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Sub Total: ");
 
-        checkout.setBackground(new java.awt.Color(255, 255, 255));
         checkout.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
         checkout.setText("CheckOut");
         checkout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -408,7 +398,6 @@ public class Keranjang extends javax.swing.JFrame {
             }
         });
 
-        Remove.setBackground(new java.awt.Color(255, 255, 255));
         Remove.setFont(new java.awt.Font("OCR A Extended", 1, 18)); // NOI18N
         Remove.setText("Remove");
         Remove.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -478,10 +467,6 @@ public class Keranjang extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
 
     private void addresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addresActionPerformed
         // TODO add your handling code here:
@@ -728,7 +713,7 @@ public class Keranjang extends javax.swing.JFrame {
     private javax.swing.JLabel loginLabel;
     private javax.swing.JLabel loginLabel1;
     private javax.swing.JLabel loginLabel2;
-    public javax.swing.JTextField name;
+    private javax.swing.JLabel name;
     private javax.swing.JTable tabel;
     private javax.swing.JLabel tanggal;
     private javax.swing.JLabel total;
