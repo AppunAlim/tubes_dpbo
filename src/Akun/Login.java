@@ -222,7 +222,7 @@ public class Login extends javax.swing.JFrame {
             this.dispose(); 
         } else {
             JOptionPane.showMessageDialog(this, "Silakan coba login kembali atau daftar akun baru.", 
-                "Info", JOptionPane.INFORMATION_MESSAGE);
+                "Info", JOptionPane.WARNING_MESSAGE);
             // reset field
             username.setText("");
             password.setText("");
@@ -234,7 +234,6 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Login berhasil! Selamat datang " + user, 
                 "Sukses", JOptionPane.INFORMATION_MESSAGE,icon);
             ProdukGUI pro = new ProdukGUI(user);
-            String usernameAktif = akunDitemukan.getUsername();
             pro.setVisible(true);
             this.dispose();
         } else {
