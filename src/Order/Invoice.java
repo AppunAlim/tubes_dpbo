@@ -32,7 +32,7 @@ public class Invoice {
         StringBuilder sb = new StringBuilder();
         
         sb.append("========================================\n");
-        sb.append("              INVOICE RESMI\n");
+        sb.append("              INVOICE RESMI\n"); 
         sb.append("========================================\n");
         sb.append("ID Invoice       : ").append(idInvoice).append("\n");
         sb.append("Metode Pembayaran: ").append(metodePembayaran).append("\n");

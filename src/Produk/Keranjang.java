@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Produk;
 
 import Order.TransaksiGUI;
@@ -15,15 +10,8 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author AFFAN SALIM
- */
 public class Keranjang extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Keranjang
-     */
     private ArrayList<Produk> daftarProduk;
     private ArrayList<Produk> itemDiKeranjang; 
     int mouseX, mouseY;
